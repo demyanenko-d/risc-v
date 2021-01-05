@@ -1,0 +1,56 @@
+
+.\a.out:     file format elf32-littleriscv
+
+
+Disassembly of section .init:
+
+00010054 <_start>:
+   10054:	00002197          	auipc	gp,0x2
+   10058:	8d418193          	addi	gp,gp,-1836 # 11928 <__global_pointer$>
+   1005c:	00010137          	lui	sp,0x10
+   10060:	00010433          	add	s0,sp,zero
+   10064:	014000ef          	jal	ra,10078 <main>
+   10068:	00c0006f          	j	10074 <_end>
+
+0001006c <arg_a>:
+   1006c:	00000003          	lb	zero,0(zero) # 0 <_start-0x10054>
+
+00010070 <arg_b>:
+   10070:	0046                	c.slli	zero,0x11
+	...
+
+00010074 <_end>:
+   10074:	0000006f          	j	10074 <_end>
+
+Disassembly of section .text:
+
+00010078 <main>:
+   10078:	000107b7          	lui	a5,0x10
+   1007c:	06c7a583          	lw	a1,108(a5) # 1006c <arg_a>
+   10080:	000107b7          	lui	a5,0x10
+   10084:	0707a503          	lw	a0,112(a5) # 10070 <arg_b>
+   10088:	ff010113          	addi	sp,sp,-16 # fff0 <_start-0x64>
+   1008c:	00112623          	sw	ra,12(sp)
+   10090:	028000ef          	jal	ra,100b8 <__mulsi3>
+   10094:	00c12083          	lw	ra,12(sp)
+   10098:	01010113          	addi	sp,sp,16
+   1009c:	00008067          	ret
+
+000100a0 <_Z3mulmm>:
+   100a0:	ff010113          	addi	sp,sp,-16
+   100a4:	00112623          	sw	ra,12(sp)
+   100a8:	010000ef          	jal	ra,100b8 <__mulsi3>
+   100ac:	00c12083          	lw	ra,12(sp)
+   100b0:	01010113          	addi	sp,sp,16
+   100b4:	00008067          	ret
+
+000100b8 <__mulsi3>:
+   100b8:	00050613          	mv	a2,a0
+   100bc:	00000513          	li	a0,0
+   100c0:	0015f693          	andi	a3,a1,1
+   100c4:	00068463          	beqz	a3,100cc <__mulsi3+0x14>
+   100c8:	00c50533          	add	a0,a0,a2
+   100cc:	0015d593          	srli	a1,a1,0x1
+   100d0:	00161613          	slli	a2,a2,0x1
+   100d4:	fe0596e3          	bnez	a1,100c0 <__mulsi3+0x8>
+   100d8:	00008067          	ret
